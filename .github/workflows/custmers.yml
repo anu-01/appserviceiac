@@ -36,7 +36,7 @@ jobs:
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
           resourceGroupName: ${{ secrets.AZURE_RG }}
-          template: ../bicep/main.bicep
-          parameters: ../bicep/main.dev.parameters.json
+          template: ./bicep/main.bicep
+          parameters: ./bicep/main.dev.parameters.json
           failOnStdErr: false
 

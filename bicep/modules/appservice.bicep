@@ -65,7 +65,7 @@ resource gitsource 'Microsoft.Web/sites/sourcecontrols@2022-03-01' = {
   name: 'web'
   properties: {
     repoUrl: gitRepoUrl
-    branch: 'master'
+    branch: 'main'
     isManualIntegration: true
   }
 }

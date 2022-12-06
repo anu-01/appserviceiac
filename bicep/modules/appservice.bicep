@@ -19,7 +19,7 @@ param sqlFQDN string
 param repoUrl string = ''
 
 var gitRepoReference = {
-  '.net': 'https://github.com/RussSmi/appserviceiac/web'
+  '.net': 'https://github.com/Azure-Samples/app-service-web-dotnet-get-started'
   node: 'https://github.com/Azure-Samples/nodejs-docs-hello-world'
   php: 'https://github.com/Azure-Samples/php-docs-hello-world'
   html: 'https://github.com/Azure-Samples/html-docs-hello-world'
@@ -65,7 +65,7 @@ resource gitsource 'Microsoft.Web/sites/sourcecontrols@2022-03-01' = {
   name: 'web'
   properties: {
     repoUrl: gitRepoUrl
-    branch: 'main'
+    branch: 'master'
     isManualIntegration: true
   }
 }

@@ -42,6 +42,7 @@ module sql 'modules/sql.bicep' = {
   }
 }
 
+@batchSize(1)
 module customers 'modules/customers.bicep' = [for plan in customerPlans: {
   name: plan.name
   params: {

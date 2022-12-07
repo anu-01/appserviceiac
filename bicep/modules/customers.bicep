@@ -40,6 +40,7 @@ resource asp 'Microsoft.Web/serverfarms@2022-03-01' = {
   }
 }
 
+@batchSize(1)
 module appService 'appservice.bicep' = [for customer in customerPlan.customers: {
   name: '${customer.name}-${uniqueString(resourceGroup().id)}'
   params: {

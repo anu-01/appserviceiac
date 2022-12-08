@@ -18,14 +18,6 @@ param sqlFQDN string
 @description('Optional Git Repo URL, if empty a \'hello world\' app will be deploy from the Azure-Samples repo')
 param repoUrl string = ''
 
-var gitRepoReference = {
-  '.net':  'https://github.com/RussSmi/curly-guide' //'https://github.com/Azure-Samples/app-service-web-dotnet-get-started'
-  node: 'https://github.com/Azure-Samples/nodejs-docs-hello-world'
-  php: 'https://github.com/Azure-Samples/php-docs-hello-world'
-  html: 'https://github.com/Azure-Samples/html-docs-hello-world'
-}
-var gitRepoUrl = (empty(repoUrl) ? gitRepoReference[language] : repoUrl)
-
 @description('The customer object, it is anticipated additional properties will be required here')
 param customer object = {
   name: 'customerName'
@@ -42,7 +34,19 @@ param sqlAdministratorLogin string
 param sqlAdministratorLoginPassword string
 param sqlserverName string
 
+@description('Log analytics workspace id')
+param logAnalyticsWorkspaceId string
 
+// Variables
+var gitRepoReference = {
+  '.net':  'https://github.com/RussSmi/curly-guide' //'https://github.com/Azure-Samples/app-service-web-dotnet-get-started'
+  node: 'https://github.com/Azure-Samples/nodejs-docs-hello-world'
+  php: 'https://github.com/Azure-Samples/php-docs-hello-world'
+  html: 'https://github.com/Azure-Samples/html-docs-hello-world'
+}
+var gitRepoUrl = (empty(repoUrl) ? gitRepoReference[language] : repoUrl)
+
+// Resources
 resource webApp 'Microsoft.Web/sites@2022-03-01' = {
   name: '${customer.name}-${uniqueString(resourceGroup().id)}'
   location: location
@@ -80,6 +84,50 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   kind: 'web'
   properties: {
     Application_Type: 'web'
+    WorkspaceResourceId: logAnalyticsWorkspaceId
+  }
+}
+
+resource appServiceSiteExtension 'Microsoft.Web/sites/siteextensions@2020-06-01' = {
+  parent: webApp
+  name: 'Microsoft.ApplicationInsights.AzureWebSites'
+  dependsOn: [
+    appInsights
+  ]
+}
+
+resource appServiceLogging 'Microsoft.Web/sites/config@2020-06-01' = {
+  parent: webApp
+  name: 'appsettings'
+  properties: {
+    APPINSIGHTS_INSTRUMENTATIONKEY: appInsights.properties.InstrumentationKey
+  }
+  dependsOn: [
+    appServiceSiteExtension
+  ]
+}
+
+resource appServiceAppSettings 'Microsoft.Web/sites/config@2020-06-01' = {
+  parent: webApp
+  name: 'logs'
+  properties: {
+    applicationLogs: {
+      fileSystem: {
+        level: 'Warning'
+      }
+    }
+    httpLogs: {
+      fileSystem: {
+        retentionInMb: 40
+        enabled: true
+      }
+    }
+    failedRequestsTracing: {
+      enabled: true
+    }
+    detailedErrorMessages: {
+      enabled: true
+    }
   }
 }
 

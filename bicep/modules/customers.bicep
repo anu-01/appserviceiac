@@ -1,6 +1,8 @@
 targetScope = 'resourceGroup'
 
 param location string = resourceGroup().location
+
+@description('The object holding the customer details')
 param customerPlan  object =  {    
     name: 'plan1'
     sku: ''
@@ -9,11 +11,9 @@ param customerPlan  object =  {
       {
         name: 'customer1'
       }
-      {
-        name: 'customer2'
-      }
     ]
   }
+
 @description('The language stack of the app.')
 @allowed([
   '.net'
@@ -29,7 +29,10 @@ param sqlAdministratorLogin string
 @description('The password of the admin user of the SQL Server')
 @secure()
 param sqlAdministratorLoginPassword string
+@description('The name of the sql server where the db will be deployed')
 param sqlserverName string
+@description('Log analytics workspace id')
+param logAnalyticsWorkspaceId string
 
 resource asp 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: customerPlan.name
@@ -52,6 +55,7 @@ module appService 'appservice.bicep' = [for customer in customerPlan.customers: 
     sqlAdministratorLogin: sqlAdministratorLogin
     sqlAdministratorLoginPassword: sqlAdministratorLoginPassword
     sqlserverName: sqlserverName
+    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
   }  
 }]
 

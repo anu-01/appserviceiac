@@ -135,6 +135,34 @@ resource sqlServer 'Microsoft.Sql/servers@2021-02-01-preview' existing = {
   name: sqlserverName
 }
 
+resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+  name: webApp.name
+  scope: webApp
+  properties: {
+    workspaceId: logAnalyticsWorkspaceId
+     logs: [
+      {
+        category: 'AppServiceHTTPLogs'
+        enabled: true
+        retentionPolicy: {
+          days: 30
+          enabled: true 
+        }
+      }
+    ] 
+    metrics: [
+      {
+        category: 'AllMetrics'
+        enabled: true
+        retentionPolicy: {
+          days: 30
+          enabled: true 
+        }
+      }
+    ]
+  }
+} 
+
 resource sqlDatabase 'Microsoft.Sql/servers/databases@2021-02-01-preview' = {
   parent: sqlServer
   name: '${customer.name}-db-${uniqueString(resourceGroup().id)}'

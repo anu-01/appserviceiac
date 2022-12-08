@@ -43,12 +43,22 @@ resource asp 'Microsoft.Web/serverfarms@2022-03-01' = {
   }
 }
 
-/* resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   name: asp.name
   scope: asp
   properties: {
     workspaceId: logAnalyticsWorkspaceId
-    logs: [
+/*     logs: [
+      {
+        category: 'AllMetrics'
+        enabled: true
+        retentionPolicy: {
+          days: 30
+          enabled: true 
+        }
+      }
+    ] */ 
+    metrics: [
       {
         category: 'AllMetrics'
         enabled: true
@@ -59,7 +69,7 @@ resource asp 'Microsoft.Web/serverfarms@2022-03-01' = {
       }
     ]
   }
-} */
+} 
 
 @batchSize(1)
 module appService 'appservice.bicep' = [for customer in customerPlan.customers: {

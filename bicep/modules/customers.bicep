@@ -43,7 +43,7 @@ resource asp 'Microsoft.Web/serverfarms@2022-03-01' = {
   }
 }
 
-resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+/* resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   name: asp.name
   scope: asp
   properties: {
@@ -59,7 +59,7 @@ resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-previe
       }
     ]
   }
-}
+} */
 
 @batchSize(1)
 module appService 'appservice.bicep' = [for customer in customerPlan.customers: {

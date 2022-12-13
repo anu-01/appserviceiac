@@ -48,7 +48,7 @@ var gitRepoUrl = (empty(repoUrl) ? gitRepoReference[language] : repoUrl)
 
 // Resources
 resource webApp 'Microsoft.Web/sites@2022-03-01' = {
-  name: '${customer.name}-${uniqueString(resourceGroup().id)}'
+  name: customer.name
   location: location
   identity: {
     type: 'SystemAssigned'

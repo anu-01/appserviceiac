@@ -14,9 +14,6 @@
                     },
                     {
                         "name": "customer2"
-                    },
-                    {
-                        "name": "Customer5"
                     }
                 ]
             },
@@ -27,9 +24,6 @@
                 "customers": [
                     {
                         "name": "customer3"
-                    },
-                    {
-                        "name": "customer4"
                     }
                 ]
             }

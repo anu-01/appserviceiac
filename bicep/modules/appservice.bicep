@@ -39,7 +39,7 @@ param logAnalyticsWorkspaceId string
 
 // Variables
 var gitRepoReference = {
-  '.net':  'https://github.com/RussSmi/curly-guide' //'https://github.com/Azure-Samples/app-service-web-dotnet-get-started'
+  '.net': 'https://github.com/Azure-Samples/app-service-web-dotnet-get-started' //'https://github.com/RussSmi/curly-guide'
   node: 'https://github.com/Azure-Samples/nodejs-docs-hello-world'
   php: 'https://github.com/Azure-Samples/php-docs-hello-world'
   html: 'https://github.com/Azure-Samples/html-docs-hello-world'

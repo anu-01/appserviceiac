@@ -45,10 +45,19 @@ var gitRepoReference = {
   html: 'https://github.com/Azure-Samples/html-docs-hello-world'
 }
 var gitRepoUrl = (empty(repoUrl) ? gitRepoReference[language] : repoUrl)
+var appServiceName = '${customer.name}-app-${uniqueString(resourceGroup().id)}'
+
+module appInsights 'appinsights.bicep' = {
+  name: 'appInsights-${appServiceName}'
+  params: {
+    applicationInsightsLocation: location
+    applicationInsightsName: '${customer.name}-appInsights'
+  }
+}
 
 // Resources
 resource webApp 'Microsoft.Web/sites@2022-03-01' = {
-  name: '${customer.name}-app-${uniqueString(resourceGroup().id)}'
+  name: appServiceName
   location: location
   identity: {
     type: 'SystemAssigned'
@@ -58,7 +67,13 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
       minTlsVersion: '1.2'
       scmMinTlsVersion: '1.2'
       ftpsState: 'FtpsOnly'
-      scmType: 'GitHub'
+      //scmType: 'GitHub'
+      appSettings: [
+        {
+          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+          value: appInsights.outputs.instrumentationKey
+        }     
+      ]
     }
     serverFarmId: appServicePlanId
     httpsOnly: true
@@ -70,67 +85,12 @@ resource gitsource 'Microsoft.Web/sites/sourcecontrols@2022-03-01' = {
   name: 'web'
   properties: {
     repoUrl: gitRepoUrl
-    branch: 'main'
+    branch: 'master'
     isManualIntegration: true
   }
-}
+} 
 
-resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
-  name: 'AppInsights${webApp.name}'
-  location: location
-  tags: {
-    'hidden-link:${webApp.id}': 'Resource'
-    displayName: 'AppInsightsComponent'
-  }
-  kind: 'web'
-  properties: {
-    Application_Type: 'web'
-    WorkspaceResourceId: logAnalyticsWorkspaceId
-  }
-}
 
-resource appServiceSiteExtension 'Microsoft.Web/sites/siteextensions@2020-06-01' = {
-  parent: webApp
-  name: 'Microsoft.ApplicationInsights.AzureWebSites'
-  dependsOn: [
-    appInsights
-  ]
-}
-
-resource appServiceLogging 'Microsoft.Web/sites/config@2020-06-01' = {
-  parent: webApp
-  name: 'appsettings'
-  properties: {
-    APPINSIGHTS_INSTRUMENTATIONKEY: appInsights.properties.InstrumentationKey
-  }
-  dependsOn: [
-    appServiceSiteExtension
-  ]
-}
-
-resource appServiceAppSettings 'Microsoft.Web/sites/config@2020-06-01' = {
-  parent: webApp
-  name: 'logs'
-  properties: {
-    applicationLogs: {
-      fileSystem: {
-        level: 'Warning'
-      }
-    }
-    httpLogs: {
-      fileSystem: {
-        retentionInMb: 40
-        enabled: true
-      }
-    }
-    failedRequestsTracing: {
-      enabled: true
-    }
-    detailedErrorMessages: {
-      enabled: true
-    }
-  }
-}
 
 resource sqlServer 'Microsoft.Sql/servers@2021-02-01-preview' existing = {
   name: sqlserverName
@@ -161,7 +121,7 @@ resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-previe
         }
       }
     ]
-  }
+  }  
 } 
 
 resource sqlDatabase 'Microsoft.Sql/servers/databases@2021-02-01-preview' = {

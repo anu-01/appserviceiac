@@ -1,9 +1,6 @@
 @description('Required. Display name of the script to be run.')
 param name string
 
-@description('Optional. The ID(s) to assign to the resource.')
-param userAssignedIdentities object = {}
-
 @description('Optional. Location for all resources.')
 param location string = resourceGroup().location
 
@@ -20,9 +17,6 @@ param azPowerShellVersion string = '3.0'
 @description('Optional. Azure CLI module version to be used.')
 param azCliVersion string = ''
 
-@description('Optional. Script body. Max length: 32000 characters. To run an external script, use primaryScriptURI instead.')
-param scriptContent string = ''
-
 @description('Optional. Use the script file included in the project')
 param useScriptFile bool = true
 
@@ -31,9 +25,6 @@ param primaryScriptUri string = ''
 
 @description('Optional. List of supporting files for the external script (defined in primaryScriptUri). Does not work with internal scripts (code defined in scriptContent).')
 param supportingScriptUris array = []
-
-@description('Optional. Command-line arguments to pass to the script. Arguments are separated by spaces.')
-param arguments string = ''
 
 @description('Optional. Interval for which the service retains the script resource after it reaches a terminal state. Resource will be deleted when this duration expires. Duration is based on ISO 8601 pattern (for example P7D means one week).')
 param retentionInterval string = 'P1D'
@@ -52,16 +43,41 @@ param cleanupPreference string = 'Always'
 @description('Optional. Maximum allowed script execution time specified in ISO 8601 format. Default value is PT1H - 1 hour; \'PT30M\' - 30 minutes; \'P5D\' - 5 days; \'P1Y\' 1 year.')
 param timeout string = 'PT1H'
 
-var scriptString = useScriptFile == true ?  loadTextContent('../scripts/b2cappreg.sh') : null
-
+@secure()
 @description('The B2C Tenant Id')
 param b2cTenantId string
 
+@secure()
 @description('The B2C Service Principal App Id')
 param b2cSpAppId string
 
+@secure()
 @description('The B2C Service Principal Secret')
 param b2cSpSecret string
+
+@description('The name of the customer for whom the app reg is being created')
+param customerName string
+
+var args = '${b2cTenantId} ${customerName} ${b2cSpAppId} ${b2cSpSecret}'
+
+var scriptContent = useScriptFile == true ?  loadTextContent('../scripts/b2cappreg.sh') : null
+
+resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
+  name: name
+  location: location
+  kind: any(kind)
+  properties: {
+    azPowerShellVersion: kind == 'AzurePowerShell' ? azPowerShellVersion : null
+    azCliVersion: kind == 'AzureCLI' ? azCliVersion : null
+    arguments: args
+    scriptContent: empty(scriptContent) ? null : scriptContent
+    primaryScriptUri: empty(primaryScriptUri) ? null : primaryScriptUri
+    supportingScriptUris: empty(supportingScriptUris) ? null : supportingScriptUris
+    cleanupPreference: cleanupPreference
+    retentionInterval: retentionInterval
+    timeout: timeout
+  }
+}
 
 
 

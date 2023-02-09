@@ -150,3 +150,20 @@ resource webSiteConnectionStrings 'Microsoft.Web/sites/config@2020-12-01' = {
     }
   }
 }
+
+resource kv 'Microsoft.KeyVault/vaults@2021-11-01-preview' existing = {
+  name: 'kvappserviceiac'
+  scope: resourceGroup()
+}
+
+module b2c 'b2cappreg.bicep' = {
+  name: '${customer.name}-${uniqueString(resourceGroup().id)}-appreg'
+  params: {
+    name: 'b2cappregscript'
+    location: location
+    customerName: customer.name
+    b2cTenantId: kv.getSecret('b2ctenantId')
+    b2cSpAppId: kv.getSecret('b2cspappid')
+    b2cSpSecret: kv.getSecret('b2cspsecret')
+  }
+}

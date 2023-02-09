@@ -5,7 +5,7 @@ param sqlAdministratorLogin string
 @description('TYhe password for the sql user')
 @secure()
 param sqlAdministratorLoginPassword string
-@description('The region for the resources, taken from the resoource group')
+@description('The region for the resources, taken from the resource group')
 param location string = resourceGroup().location
 @description('The customer app service to plan mappings')
 param customerPlans array = [

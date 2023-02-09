@@ -39,8 +39,9 @@ param b2cSpSecret string
 
 resource kv 'Microsoft.KeyVault/vaults@2021-11-01-preview' = {
   name: keyVaultName
-  location: location
+  location: location  
   properties: {
+    createMode: 'recover'
     enabledForDeployment: enabledForDeployment
     enabledForDiskEncryption: enabledForDiskEncryption
     enabledForTemplateDeployment: enabledForTemplateDeployment

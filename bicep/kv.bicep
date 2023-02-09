@@ -41,7 +41,8 @@ resource kv 'Microsoft.KeyVault/vaults@2021-11-01-preview' = {
   name: keyVaultName
   location: location  
   properties: {
-    createMode: 'recover'
+    createMode: 'default'
+    enableRbacAuthorization: true
     enabledForDeployment: enabledForDeployment
     enabledForDiskEncryption: enabledForDiskEncryption
     enabledForTemplateDeployment: enabledForTemplateDeployment

@@ -15,7 +15,7 @@ param kind string = 'AzureCLI'
 param azPowerShellVersion string = '3.0'
 
 @description('Optional. Azure CLI module version to be used.')
-param azCliVersion string = '2.44.1'
+param azCliVersion string = '2.42.0'
 
 @description('Optional. Use the script file included in the project')
 param useScriptFile bool = true

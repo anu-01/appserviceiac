@@ -15,7 +15,7 @@ param kind string = 'AzureCLI'
 param azPowerShellVersion string = '3.0'
 
 @description('Optional. Azure CLI module version to be used.')
-param azCliVersion string = ''
+param azCliVersion string = '2.44.1'
 
 @description('Optional. Use the script file included in the project')
 param useScriptFile bool = true
@@ -29,8 +29,8 @@ param supportingScriptUris array = []
 @description('Optional. Interval for which the service retains the script resource after it reaches a terminal state. Resource will be deleted when this duration expires. Duration is based on ISO 8601 pattern (for example P7D means one week).')
 param retentionInterval string = 'P1D'
 
-@description('Optional. When set to false, script will run every time the template is deployed. When set to true, the script will only run once.')
-param runOnce bool = false
+//@description('Optional. When set to false, script will run every time the template is deployed. When set to true, the script will only run once.')
+//param runOnce bool = false
 
 @description('Optional. The clean up preference when the script execution gets in a terminal state. Specify the preference on when to delete the deployment script resources. The default value is Always, which means the deployment script resources are deleted despite the terminal state (Succeeded, Failed, canceled).')
 @allowed([

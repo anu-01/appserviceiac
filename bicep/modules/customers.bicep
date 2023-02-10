@@ -71,10 +71,7 @@ resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-previe
   }
 } 
 
-resource kv 'Microsoft.KeyVault/vaults@2021-11-01-preview' existing = {
-  name: ''
-  scope: resourceGroup()
-}
+
 @batchSize(1)
 module appService 'appservice.bicep' = [for customer in customerPlan.customers: {
   name: '${customer.name}-${uniqueString(resourceGroup().id)}'

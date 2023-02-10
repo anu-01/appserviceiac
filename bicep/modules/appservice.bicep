@@ -156,6 +156,7 @@ resource kv 'Microsoft.KeyVault/vaults@2021-11-01-preview' existing = {
   scope: resourceGroup()
 }
 
+
 module b2c 'b2cappreg.bicep' = {
   name: '${customer.name}-${uniqueString(resourceGroup().id)}-appreg'
   params: {

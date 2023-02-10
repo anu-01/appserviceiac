@@ -40,3 +40,15 @@ jobs:
           parameters: b2cTenantId=${{ secrets.B2C_TENANT_ID }} b2cSpAppId=${{ secrets.B2C_SP_APP_ID }} b2cSpSecret=${{secrets.B2C_SP_SECRET}}
           failOnStdErr: false
 
+  CostEstimate:
+    uses: TheCloudTheory/arm-estimator/.github/workflows/estimateFromUrl.yml@main
+    with:
+      rg: ${{ secrets.AZURE_RG }}
+      environment: '' #Use empty string for repo level secrets
+      templateFileURL: ./bicep/kv.bicep
+      templateParamFileURL: ''
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+

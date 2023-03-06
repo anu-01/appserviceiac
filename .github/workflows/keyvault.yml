@@ -43,7 +43,7 @@ jobs:
   CostEstimate:
     uses: TheCloudTheory/arm-estimator/.github/workflows/estimateFromUrl.yml@main
     with:
-      rg: ${{ secrets.AZURE_RG }}
+      rg: 'rg-app_test'
       environment: '' #Use empty string for repo level secrets
       templateFileURL: ./bicep/kv.bicep
       templateParamFileURL: ''

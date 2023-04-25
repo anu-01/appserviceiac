@@ -45,6 +45,9 @@ param sqlserverName string
 @description('Log analytics workspace id')
 param logAnalyticsWorkspaceId string
 
+@description('Name of the keyvault')
+param kvname string = 'kvappserviceiac'
+
 // Variables
 var gitRepoReference = {
   '.net': 'https://github.com/RussSmi/b2cwebapp' //'https://github.com/Azure-Samples/app-service-web-dotnet-get-started' //'https://github.com/RussSmi/curly-guide'
@@ -163,7 +166,7 @@ resource webSiteConnectionStrings 'Microsoft.Web/sites/config@2020-12-01' = {
 }
 
 resource kv 'Microsoft.KeyVault/vaults@2021-11-01-preview' existing = {
-  name: 'kvappserviceiac'
+  name: kvname
   scope: resourceGroup()
 }
 

@@ -57,19 +57,6 @@ resource sqlDatabase 'Microsoft.Sql/servers/databases@2021-02-01-preview' = if (
 
 
 
-resource sqlServerDatabase 'Microsoft.Sql/servers/databases@2014-04-01' = {
-  parent: sqlServer
-  name: 'name'
-  location: location
-  properties: {
-    collation: 'collation'
-    edition: 'Basic'
-    maxSizeBytes: 'maxSizeBytes'
-    requestedServiceObjectiveName: 'Basic'
-  }
-}
-
-
 resource allowAllWindowsAzureIps 'Microsoft.Sql/servers/firewallRules@2021-02-01-preview' = {
   parent: sqlServer
   name: 'AllowAllWindowsAzureIps'

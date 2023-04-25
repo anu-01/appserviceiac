@@ -62,7 +62,7 @@ var args = '${b2cTenantId} ${customerName} ${b2cSpAppId} ${b2cSpSecret}'
 
 var scriptContent = useScriptFile == true ?  loadTextContent('../scripts/b2cappreg.sh') : null
 
-resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
+/* resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
   name: name
   location: location
   kind: any(kind)
@@ -77,7 +77,7 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
     retentionInterval: retentionInterval
     timeout: timeout
   }
-}
+} */
 
 
 

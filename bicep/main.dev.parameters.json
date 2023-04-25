@@ -15,24 +15,15 @@
                     {
                         "name": "customer1",
                         "dbSku": {
-                                "name": "GP_Gen5",
-                                "tier": "GeneralPurpose",
-                                "family": "Gen5",
-                                "capacity": "2"
+                            "name": "Basic",
+                            "tier": "Basic",
+                            "family": "",
+                            "capacity": "5"
                             }
             
                     },
                     {
                         "name": "customer2",
-                        "dbSku": {
-                                "name": "Basic",
-                                "tier": "Basic",
-                                "family": "",
-                                "capacity": "5"
-                            }
-                    },
-                    {
-                        "name": "customer4",
                         "dbSku": {
                                 "name": "Basic",
                                 "tier": "Basic",
@@ -46,26 +37,7 @@
                 "name": "plan2",
                 "sku": "F1",
                 "capacity": "1",
-                "customers": [
-                    {
-                        "name": "customer5",
-                        "dbSku": {
-                                "name": "GP_Gen5",
-                                "tier": "GeneralPurpose",
-                                "family": "Gen5",
-                                "capacity": "2"
-                            }
-            
-                    },
-                    {
-                        "name": "customer6",
-                        "dbSku": {
-                                "name": "Basic",
-                                "tier": "Basic",
-                                "family": "",
-                                "capacity": "5"
-                            }
-                    },
+                "customers": [                    
                     {
                         "name": "customer3",
                         "dbSku": {

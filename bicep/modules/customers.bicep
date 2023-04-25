@@ -10,6 +10,14 @@ param customerPlan  object =  {
     customers: [
       {
         name: 'customer1'
+        dbSku: [
+          {
+              name: ''
+              tier: ''
+              family: ''
+              capacity: ''
+          }
+        ]
       }
     ]
   }

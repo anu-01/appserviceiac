@@ -1,5 +1,5 @@
 @description('Specifies the name of the key vault.')
-param keyVaultName string = 'kvappserviceiac'
+param keyVaultName string = 'kviac'
 
 @description('Specifies the Azure location where the key vault should be created.')
 param location string = resourceGroup().location
@@ -35,10 +35,10 @@ param b2cSpAppId string
 @description('The B2C Service Principal Secret')
 param b2cSpSecret string
 
-
+var finalKvName = '${keyVaultName}${uniqueString(resourceGroup().id)}'
 
 resource kv 'Microsoft.KeyVault/vaults@2021-11-01-preview' = {
-  name: keyVaultName
+  name: finalKvName
   location: location  
   properties: {
     createMode: 'default'

@@ -16,6 +16,14 @@ param customerPlans array = [
     customers: [
       {
         name: ''
+        dbSku: [
+          {
+              name: ''
+              tier: ''
+              family: ''
+              capacity: ''
+          }
+        ]
       }
     ]
   }

@@ -21,6 +21,14 @@ param repoUrl string = ''
 @description('The customer object, it is anticipated additional properties will be required here')
 param customer object = {
   name: 'customerName'
+  dbSku: [
+    {
+        name: ''
+        tier: ''
+        family: ''
+        capacity: ''
+    }
+  ]
 }
 
 @description('The app service plan id that this app service will use')
@@ -132,7 +140,10 @@ resource sqlDatabase 'Microsoft.Sql/servers/databases@2021-02-01-preview' = {
     displayName: 'Database'
   }
   sku: {
-    name: 'Basic'
+    name: customer.dbSku.name
+    tier: customer.dbSku.tier
+    family: customer.dbSku.family
+    capacity: customer.dbSku.capacity
   }
   properties: {
     collation: 'SQL_Latin1_General_CP1_CI_AS'

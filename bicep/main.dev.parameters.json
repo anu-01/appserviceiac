@@ -48,6 +48,25 @@
                 "capacity": "1",
                 "customers": [
                     {
+                        "name": "customer5",
+                        "dbSku": {
+                                "name": "GP_Gen5",
+                                "tier": "GeneralPurpose",
+                                "family": "Gen5",
+                                "capacity": "2"
+                            }
+            
+                    },
+                    {
+                        "name": "customer6",
+                        "dbSku": {
+                                "name": "Basic",
+                                "tier": "Basic",
+                                "family": "",
+                                "capacity": "5"
+                            }
+                    },
+                    {
                         "name": "customer3",
                         "dbSku": {
                                 "name": "Basic",

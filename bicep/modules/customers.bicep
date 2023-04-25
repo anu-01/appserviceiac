@@ -41,6 +41,8 @@ param sqlAdministratorLoginPassword string
 param sqlserverName string
 @description('Log analytics workspace id')
 param logAnalyticsWorkspaceId string
+@description('Name of the keyvault')
+param kvname string
 
 resource asp 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: customerPlan.name
@@ -93,6 +95,7 @@ module appService 'appservice.bicep' = [for customer in customerPlan.customers: 
     sqlAdministratorLoginPassword: sqlAdministratorLoginPassword
     sqlserverName: sqlserverName
     logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+    kvname: kvname
   }  
 }]
 

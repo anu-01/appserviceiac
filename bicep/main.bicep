@@ -7,6 +7,8 @@ param sqlAdministratorLogin string
 param sqlAdministratorLoginPassword string
 @description('The region for the resources, taken from the resource group')
 param location string = resourceGroup().location
+@description('Name of the keyvault')
+param kvname string
 @description('The customer app service to plan mappings')
 param customerPlans array = [
   {    
@@ -68,5 +70,6 @@ module customers 'modules/customers.bicep' = [for plan in customerPlans: {
     sqlserverName: sql.outputs.sqlServerName
     sqlFQDN: sql.outputs.sqlFQDN
     logAnalyticsWorkspaceId: logAnalytics.id
+    kvname: kvname
   }
 }]

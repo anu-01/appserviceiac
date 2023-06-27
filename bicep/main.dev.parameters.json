@@ -5,6 +5,9 @@
         "kvname": {
             "value": "kvappserviceiac"
         },
+        "b2cLoginUrl": {
+            "value": "https://rusmithb2c.b2clogin.com"
+        },
         "customerPlans": {
         "value": [
             {
@@ -14,6 +17,24 @@
                 "customers": [
                     {
                         "name": "customer1",
+                        "logo": "",
+                        "splash": "",
+                        "start": "CreateDashboard",
+                        "productHubUrl": "https://www.oneadvanced.com/",
+                        "volumes": [{
+                            "documents": [{
+                                "icon": "",
+                                "path": "App_Data\\Documents"
+                            }]
+                        }],
+                        "links": [{
+                          "name": "Terms of Use",
+                          "url": "https://www.oneadvanced.com/"
+                        },
+                        {
+                          "name": "Privacy Policy",
+                          "url": "https://www.oneadvanced.com/"
+                        }],
                         "dbSku": {
                             "name": "Basic",
                             "tier": "Basic",
@@ -24,6 +45,51 @@
                     },
                     {
                         "name": "customer2",
+                        "logo": "",
+                        "splash": "",
+                        "start": "CreateDashboard",
+                        "productHubUrl": "https://www.oneadvanced.com/",
+                        "volumes": [{
+                            "documents": [{
+                                "icon": "",
+                                "path": "App_Data\\Documents"
+                            }]
+                        }],
+                        "links": [{
+                          "name": "Terms of Use",
+                          "url": "https://www.oneadvanced.com/"
+                        },
+                        {
+                          "name": "Privacy Policy",
+                          "url": "https://www.oneadvanced.com/"
+                        }],
+                        "dbSku": {
+                                "name": "Basic",
+                                "tier": "Basic",
+                                "family": "",
+                                "capacity": "5"
+                            }
+                    },
+                    {
+                        "name": "customer4",
+                        "logo": "",
+                        "splash": "",
+                        "start": "CreateDashboard",
+                        "productHubUrl": "https://www.oneadvanced.com/",
+                        "volumes": [{
+                            "documents": [{
+                                "icon": "",
+                                "path": "App_Data\\Documents"
+                            }]
+                        }],
+                        "links": [{
+                          "name": "Terms of Use",
+                          "url": "https://www.oneadvanced.com/"
+                        },
+                        {
+                          "name": "Privacy Policy",
+                          "url": "https://www.oneadvanced.com/"
+                        }],
                         "dbSku": {
                                 "name": "Basic",
                                 "tier": "Basic",

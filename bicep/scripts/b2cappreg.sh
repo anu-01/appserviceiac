@@ -21,3 +21,4 @@ az ad app list --display-name $AppName #(Gives details of newly created app)
 echo Listed app    
 #password=$(az ad app credential reset --id $clientid --append --query password --output tsv)
 #echo password = $password
+echo '{ "clientid": "'$clientid'", "objectId": "'$objectid'", "appSecret": "'$password'"}' > $AZ_SCRIPTS_OUTPUT_PATH

@@ -10,6 +10,20 @@ param customerPlan  object =  {
     customers: [
       {
         name: 'customer1'
+        logo: ''
+        splash: ''
+        start: ''
+        productHubUrl: ''
+        volumes: [{
+          documents: [{
+            icon: ''
+            path: ''
+          }]
+        }]
+        links: [{
+          name: ''
+          url: ''
+        }]
         dbSku: [
           {
               name: ''
@@ -43,6 +57,8 @@ param sqlserverName string
 param logAnalyticsWorkspaceId string
 @description('Name of the keyvault')
 param kvname string
+@description('The url of the b2c login page')
+param b2cLoginUrl string
 
 resource asp 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: customerPlan.name
@@ -58,16 +74,6 @@ resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-previe
   scope: asp
   properties: {
     workspaceId: logAnalyticsWorkspaceId
-/*     logs: [
-      {
-        category: 'AllMetrics'
-        enabled: true
-        retentionPolicy: {
-          days: 30
-          enabled: true 
-        }
-      }
-    ] */ 
     metrics: [
       {
         category: 'AllMetrics'
@@ -96,6 +102,7 @@ module appService 'appservice.bicep' = [for customer in customerPlan.customers: 
     sqlserverName: sqlserverName
     logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
     kvname: kvname
+    b2cLoginUrl: b2cLoginUrl
   }  
 }]
 

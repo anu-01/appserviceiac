@@ -9,6 +9,8 @@ param sqlAdministratorLoginPassword string
 param location string = resourceGroup().location
 @description('Name of the keyvault')
 param kvname string
+@description('The B2c login url')
+param b2cLoginUrl string
 @description('The customer app service to plan mappings')
 param customerPlans array = [
   {    
@@ -18,6 +20,20 @@ param customerPlans array = [
     customers: [
       {
         name: ''
+        logo: ''
+        splash: ''
+        start: ''
+        productHubUrl: ''
+        volumes: [{
+          documents: [{
+            icon: ''
+            path: ''
+          }]
+        }]
+        links: [{
+          name: ''
+          url: ''
+        }]
         dbSku: [
           {
               name: ''
@@ -71,5 +87,6 @@ module customers 'modules/customers.bicep' = [for plan in customerPlans: {
     sqlFQDN: sql.outputs.sqlFQDN
     logAnalyticsWorkspaceId: logAnalytics.id
     kvname: kvname
+    b2cLoginUrl: b2cLoginUrl
   }
 }]

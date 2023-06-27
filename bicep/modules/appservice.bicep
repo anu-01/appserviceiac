@@ -21,6 +21,20 @@ param repoUrl string = ''
 @description('The customer object, it is anticipated additional properties will be required here')
 param customer object = {
   name: 'customerName'
+  logo: ''
+  splash: ''
+  start: ''
+  productHubUrl: ''
+  volumes: [{
+    documents: [{
+      icon: ''
+      path: ''
+    }]
+  }]
+  links: [{
+    name: ''
+    url: ''
+  }]
   dbSku: [
     {
         name: ''
@@ -48,6 +62,9 @@ param logAnalyticsWorkspaceId string
 @description('Name of the keyvault')
 param kvname string = 'kvappserviceiac'
 
+@description('The url of the b2c login page')
+param b2cLoginUrl string
+
 // Variables
 var gitRepoReference = {
   '.net': 'https://github.com/RussSmi/b2cwebapp' //'https://github.com/Azure-Samples/app-service-web-dotnet-get-started' //'https://github.com/RussSmi/curly-guide'
@@ -66,6 +83,19 @@ module appInsights 'appinsights.bicep' = {
   }
 }
 
+module b2c 'b2cappreg.bicep' = {
+  name: '${customer.name}-${uniqueString(resourceGroup().id)}-appreg'
+  params: {
+    name: 'b2cappregscript'
+    location: location
+    customerName: customer.name
+    b2cTenantId: kv.getSecret('b2ctenantId')
+    b2cSpAppId: kv.getSecret('b2cspappid')
+    b2cSpSecret: kv.getSecret('b2cspsecret')
+  }
+}
+
+
 // Resources
 resource webApp 'Microsoft.Web/sites@2022-03-01' = {
   name: appServiceName
@@ -83,12 +113,40 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
           value: appInsights.outputs.instrumentationKey
+        }
+        {
+          name: 'AzureAdB2C'
+          value: '{ \\"Instance\\": \\"${b2cLoginUrl}", \\"ClientId\\": \\"${b2c.outputs.result.clientid}\\",\\"Domain\\": \\"rusmithb2c.onmicrosoft.com\\",\\"SignedOutCallbackPath\\": \\"/signout/B2C_1_signupsignin1\\", \\"SignUpSignInPolicyId\\": \\"B2C_1_signupsignin1\\",  \\"ResetPasswordPolicyId\\": \\"B2C_1_passwordreset\\",  \\"EditProfilePolicyId\\": \\"B2C_1_profileedit1\\" }'
         }     
+        {
+          name: 'Account'
+          value: '{ \\"Name\\": \\"${customer.name}\\", \\"Logo\\": \\"${customer.logo}\\", \\"Splash\\": \\"${customer.splash}\\" }'
+        }
+        {
+          name: 'Start'
+          value: customer.start
+        }
+        {
+          name: 'ProductHubUrl'
+          value: customer.productHubUrl
+        }
+        {
+          name: 'Volumes'
+          value: json(customer.volumes)
+        }
+        {
+          name: 'Links'
+          value: json(customer.links)
+        }        
       ]
     }
     serverFarmId: appServicePlanId
     httpsOnly: true
   }
+  dependsOn: [
+    appInsights
+    b2c
+  ]
 }
 
 resource gitsource 'Microsoft.Web/sites/sourcecontrols@2022-03-01' = {
@@ -168,17 +226,4 @@ resource webSiteConnectionStrings 'Microsoft.Web/sites/config@2020-12-01' = {
 resource kv 'Microsoft.KeyVault/vaults@2021-11-01-preview' existing = {
   name: kvname
   scope: resourceGroup()
-}
-
-
-module b2c 'b2cappreg.bicep' = {
-  name: '${customer.name}-${uniqueString(resourceGroup().id)}-appreg'
-  params: {
-    name: 'b2cappregscript'
-    location: location
-    customerName: customer.name
-    b2cTenantId: kv.getSecret('b2ctenantId')
-    b2cSpAppId: kv.getSecret('b2cspappid')
-    b2cSpSecret: kv.getSecret('b2cspsecret')
-  }
 }

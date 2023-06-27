@@ -89,6 +89,7 @@ module b2c 'b2cappreg.bicep' = {
     name: 'b2cappregscript'
     location: location
     customerName: customer.name
+    customerAppName: appServiceName
     b2cTenantId: kv.getSecret('b2ctenantId')
     b2cSpAppId: kv.getSecret('b2cspappid')
     b2cSpSecret: kv.getSecret('b2cspsecret')

@@ -58,7 +58,10 @@ param b2cSpSecret string
 @description('The name of the customer for whom the app reg is being created')
 param customerName string
 
-var args = '${b2cTenantId} ${customerName} ${b2cSpAppId} ${b2cSpSecret}'
+@description('The name of the customer App used for url generation')
+param customerAppName string
+
+var args = '${b2cTenantId} ${customerName} ${b2cSpAppId} ${b2cSpSecret} ${customerAppName} rusmithb2c'  // TODO: Remove hardcoded value
 
 var scriptContent = useScriptFile == true ?  loadTextContent('../scripts/b2cappreg.sh') : null
 

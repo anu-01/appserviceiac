@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# Usage: ./b2cappreg.sh b2c-tenant-id customer-name sp-app-id sp-secret
+# Usage: ./b2cappreg.sh b2c-tenant-id customer-name sp-app-id sp-secret customer-app-name b2c-name
 az login --service-principal -u $3 -p $4 --allow-no-subscriptions --tenant $1
 echo 'Login Completed'
 AppName="$2appreg"    
 echo AppName = $AppName
 
-MainUri="https://rusmithb2c.b2clogin.com/rusmithb2c.onmicrosoft.com/oauth2/authresp"
-SignUpInUri="https://$2.azurewebsites.net/B2C_1_signupsignin1"
-SignInOidcUri="https://$2.azurewebsites.net/signin-oidc"
+MainUri="https://$6.b2clogin.com/$6.onmicrosoft.com/oauth2/authresp"
+SignUpInUri="https://$5.azurewebsites.net/B2C_1_signupsignin1"
+SignInOidcUri="https://$5.azurewebsites.net/signin-oidc"
 
 #
 #az ad app create --display-name $AppName --web-redirect-uris MainUri SignUpInUri SignInOidcUri

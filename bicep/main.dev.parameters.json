@@ -105,8 +105,7 @@
                 "capacity": "1",
                 "customers": [                    
                     {
-                        "name": "customer3",
-                        ,
+                        "name": "customer3", 
                         "logo": "",
                         "splash": "",
                         "start": "CreateDashboard",

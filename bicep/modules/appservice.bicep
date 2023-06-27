@@ -132,11 +132,11 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
         }
         {
           name: 'Volumes'
-          value: json(customer.volumes)
+          value: string(customer.volumes)
         }
         {
           name: 'Links'
-          value: json(customer.links)
+          value: string(customer.links)
         }        
       ]
     }

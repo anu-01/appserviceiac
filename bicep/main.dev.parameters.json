@@ -106,6 +106,25 @@
                 "customers": [                    
                     {
                         "name": "customer3",
+                        ,
+                        "logo": "",
+                        "splash": "",
+                        "start": "CreateDashboard",
+                        "productHubUrl": "https://www.oneadvanced.com/",
+                        "volumes": [{
+                            "documents": [{
+                                "icon": "",
+                                "path": "App_Data\\Documents"
+                            }]
+                        }],
+                        "links": [{
+                          "name": "Terms of Use",
+                          "url": "https://www.oneadvanced.com/"
+                        },
+                        {
+                          "name": "Privacy Policy",
+                          "url": "https://www.oneadvanced.com/"
+                        }],
                         "dbSku": {
                                 "name": "Basic",
                                 "tier": "Basic",

@@ -116,12 +116,16 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
           value: appInsights.outputs.instrumentationKey
         }
         {
-          name: 'AzureAdB2C'
-          value: '{ \\"Instance\\": \\"${b2cLoginUrl}", \\"ClientId\\": \\"${b2c.outputs.result.clientid}\\",\\"Domain\\": \\"rusmithb2c.onmicrosoft.com\\",\\"SignedOutCallbackPath\\": \\"/signout/B2C_1_signupsignin1\\", \\"SignUpSignInPolicyId\\": \\"B2C_1_signupsignin1\\",  \\"ResetPasswordPolicyId\\": \\"B2C_1_passwordreset\\",  \\"EditProfilePolicyId\\": \\"B2C_1_profileedit1\\" }'
-        }     
+          name: 'AzureAdB2C:ClientId'
+          value: b2c.outputs.result.clientid
+        }    
+        {
+          name: 'AzureAdB2C:Instance'
+          value: b2cLoginUrl
+        }
         {
           name: 'Account'
-          value: '{ \\"Name\\": \\"${customer.name}\\", \\"Logo\\": \\"${customer.logo}\\", \\"Splash\\": \\"${customer.splash}\\" }'
+          value: '{ "Name": "${customer.name}", "Logo": "${customer.logo}", "Splash": "${customer.splash}" }'
         }
         {
           name: 'Start'

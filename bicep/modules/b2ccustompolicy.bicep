@@ -4,41 +4,11 @@ param name string
 @description('Optional. Location for all resources.')
 param location string = resourceGroup().location
 
-@description('Optional. Type of the script. AzurePowerShell, AzureCLI.')
-@allowed([
-  'AzurePowerShell'
-  'AzureCLI'
-])
-param kind string = 'AzurePowerShell'
+@description('comma separate string of the full login urls')
+param CustomerTenants string 
 
-@description('Optional. Azure PowerShell module version to be used.')
-param azPowerShellVersion string = '8.3'
-
-param CustomerTenants string // comma separate string of the full login urls
+@description('The B2C Tenant Name, name only, not FQ')
 param B2CTenantName string
-
-@description('Optional. Uri for the external script. This is the entry point for the external script. To run an internal script, use the scriptContent instead.')
-param primaryScriptUri string = ''
-
-@description('Optional. List of supporting files for the external script (defined in primaryScriptUri). Does not work with internal scripts (code defined in scriptContent).')
-param supportingScriptUris array = []
-
-@description('Optional. Interval for which the service retains the script resource after it reaches a terminal state. Resource will be deleted when this duration expires. Duration is based on ISO 8601 pattern (for example P7D means one week).')
-param retentionInterval string = 'P1D'
-
-//@description('Optional. When set to false, script will run every time the template is deployed. When set to true, the script will only run once.')
-//param runOnce bool = false
-
-@description('Optional. The clean up preference when the script execution gets in a terminal state. Specify the preference on when to delete the deployment script resources. The default value is Always, which means the deployment script resources are deleted despite the terminal state (Succeeded, Failed, canceled).')
-@allowed([
-  'Always'
-  'OnSuccess'
-  'OnExpiration'
-])
-param cleanupPreference string = 'Always'
-
-@description('Optional. Maximum allowed script execution time specified in ISO 8601 format. Default value is PT1H - 1 hour; \'PT30M\' - 30 minutes; \'P5D\' - 5 days; \'P1Y\' 1 year.')
-param timeout string = 'PT1H'
 
 @secure()
 @description('The B2C Tenant Id')
@@ -60,20 +30,22 @@ param policyId string
 var scriptContentPolicy = loadTextContent('../scripts/DeployToB2C.ps1')
 var policyContent = loadTextContent('../b2c/IDP_AAD_Multi.xml')
 var args = '-ClientID = \\"${b2cSpAppId}\\" -ClientSecret = \\"${b2cSpSecret}\\"  -TenantId = \\"${b2cTenantId}\\" -CustomerTenants = \\"${CustomerTenants}\\" -CustomerName = \\"${customerName}\\" -B2CTenant = \\"${B2CTenantName}\\" -PolicyId = \\"${policyId}\\" -PolicyContent = \\"${policyContent}\\" '
-
+var timeout  = 'PT1H'
+var cleanupPreference = 'Always'
+var  retentionInterval = 'P1D'
+var azPowerShellVersion = '8.3'
 
 
 resource deploymentScriptPolicy 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
   name: name
   location: location
-  kind: any(kind)
+  kind: 'AzurePowerShell'
   properties: {
     azPowerShellVersion: azPowerShellVersion  
-    azCliVersion: null
     arguments: args
     scriptContent: empty(scriptContentPolicy) ? null : scriptContentPolicy
-    primaryScriptUri: empty(primaryScriptUri) ? null : primaryScriptUri
-    supportingScriptUris: empty(supportingScriptUris) ? null : supportingScriptUris
+    primaryScriptUri: null
+    supportingScriptUris: null
     cleanupPreference: cleanupPreference
     retentionInterval: retentionInterval
     timeout: timeout

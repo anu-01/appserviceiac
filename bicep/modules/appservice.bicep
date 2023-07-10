@@ -108,12 +108,12 @@ module policy 'b2ccustompolicy.bicep' = {
   params: {
     name: 'b2ccustompolicy'
     location: location
-    customerName: customer.name
+    CustomerTenants: customer.loginUrls
+    B2CTenantName: b2ctenant    
     b2cTenantId: kv.getSecret('b2ctenantId')
     b2cSpAppId: kv.getSecret('b2cspappid')
     b2cSpSecret: kv.getSecret('b2cspsecret')
-    B2CTenantName: b2ctenant
-    CustomerTenants: customer.loginUrls
+    customerName: customer.name    
     policyId: policyId
   }
 }

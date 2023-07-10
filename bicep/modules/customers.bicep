@@ -7,6 +7,7 @@ param customerPlan  object =  {
     name: 'plan1'
     sku: ''
     capacity: ''
+    b2ctenant: ''
     customers: [
       {
         name: 'customer1'
@@ -32,6 +33,7 @@ param customerPlan  object =  {
               capacity: ''
           }
         ]
+        loginUrls: ''
       }
     ]
   }
@@ -103,6 +105,7 @@ module appService 'appservice.bicep' = [for customer in customerPlan.customers: 
     logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
     kvname: kvname
     b2cLoginUrl: b2cLoginUrl
+    b2ctenant: customerPlan.b2ctenant
   }  
 }]
 

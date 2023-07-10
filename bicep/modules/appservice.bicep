@@ -43,6 +43,7 @@ param customer object = {
         capacity: ''
     }
   ]
+  loginUrls: ''
 }
 
 @description('The app service plan id that this app service will use')
@@ -65,6 +66,11 @@ param kvname string = 'kvappserviceiac'
 @description('The url of the b2c login page')
 param b2cLoginUrl string
 
+@description('The b2c tenant name')
+param b2ctenant string
+
+param policyPrefix string = 'B2C_1A_IDP_AAD_' 
+
 // Variables
 var gitRepoReference = {
   '.net': 'https://github.com/RussSmi/b2cwebapp' //'https://github.com/Azure-Samples/app-service-web-dotnet-get-started' //'https://github.com/RussSmi/curly-guide'
@@ -74,6 +80,7 @@ var gitRepoReference = {
 }
 var gitRepoUrl = (empty(repoUrl) ? gitRepoReference[language] : repoUrl)
 var appServiceName = '${customer.name}-app-${uniqueString(resourceGroup().id)}'
+var policyId = '${policyPrefix}${customer.name}'
 
 module appInsights 'appinsights.bicep' = {
   name: 'appInsights-${appServiceName}'
@@ -93,6 +100,21 @@ module b2c 'b2cappreg.bicep' = {
     b2cTenantId: kv.getSecret('b2ctenantId')
     b2cSpAppId: kv.getSecret('b2cspappid')
     b2cSpSecret: kv.getSecret('b2cspsecret')
+  }
+}
+
+module policy 'b2ccustompolicy.bicep' = {
+  name: '${customer.name}-${uniqueString(resourceGroup().id)}-policy'
+  params: {
+    name: 'b2ccustompolicy'
+    location: location
+    customerName: customer.name
+    b2cTenantId: kv.getSecret('b2ctenantId')
+    b2cSpAppId: kv.getSecret('b2cspappid')
+    b2cSpSecret: kv.getSecret('b2cspsecret')
+    B2CTenantName: b2ctenant
+    CustomerTenants: customer.loginUrls
+    policyId: policyId
   }
 }
 
@@ -122,6 +144,14 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'AzureAdB2C:Instance'
           value: b2cLoginUrl
+        }
+        {
+          name: 'AzureAdB2C:SignUpSignInPolicyId'
+          value: policyId
+        }
+        {
+          name: 'AzureAdB2C:SignedOutCallbackPath'
+          value: '/signout/${policyId}'
         }
         {
           name: 'Account'

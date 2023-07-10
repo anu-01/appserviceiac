@@ -9,7 +9,7 @@ param sqlAdministratorLoginPassword string
 param location string = resourceGroup().location
 @description('Name of the keyvault')
 param kvname string
-@description('The B2c login url')
+@description('The B2c login url of the main b2c tenant.  This is used in the app settings to perform the login')
 param b2cLoginUrl string
 @description('The customer app service to plan mappings')
 param customerPlans array = [
@@ -17,6 +17,7 @@ param customerPlans array = [
     name: ''
     sku: ''
     capacity: ''
+    b2ctenant: ''
     customers: [
       {
         name: ''
@@ -42,6 +43,7 @@ param customerPlans array = [
               capacity: ''
           }
         ]
+        loginUrls: ''
       }
     ]
   }

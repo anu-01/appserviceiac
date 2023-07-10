@@ -14,6 +14,7 @@
                 "name": "plan1",
                 "sku": "F1",
                 "capacity": "1",
+                "b2ctenant": "rusmithb2c",
                 "customers": [
                     {
                         "name": "customer1",
@@ -40,8 +41,8 @@
                             "tier": "Basic",
                             "family": "",
                             "capacity": "5"
-                            }
-            
+                            },
+                        "loginUrls": "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db4"
                     },
                     {
                         "name": "customer2",
@@ -68,7 +69,8 @@
                                 "tier": "Basic",
                                 "family": "",
                                 "capacity": "5"
-                            }
+                            },
+                        "loginUrls": "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db4"
                     },
                     {
                         "name": "customer4",
@@ -95,7 +97,8 @@
                                 "tier": "Basic",
                                 "family": "",
                                 "capacity": "5"
-                            }
+                            },
+                        "loginUrls": "https://login.microsoftonline.com/2a7a78f0-686f-4f0f-bd6f-f35fc0f735f1"
                     }
                 ]
             },
@@ -103,6 +106,7 @@
                 "name": "plan2",
                 "sku": "F1",
                 "capacity": "1",
+                "b2ctenant": "rusmithb2c",
                 "customers": [                    
                     {
                         "name": "customer3", 
@@ -129,7 +133,8 @@
                                 "tier": "Basic",
                                 "family": "",
                                 "capacity": "5"
-                            }
+                            },
+                        "loginUrls": "https://login.microsoftonline.com/2a7a78f0-686f-4f0f-bd6f-f35fc0f735f1"
                     }
                 ]
             }

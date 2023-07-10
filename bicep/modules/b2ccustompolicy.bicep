@@ -9,16 +9,13 @@ param location string = resourceGroup().location
   'AzurePowerShell'
   'AzureCLI'
 ])
-param kind string = 'AzureCLI'
+param kind string = 'AzurePowerShell'
 
 @description('Optional. Azure PowerShell module version to be used.')
-param azPowerShellVersion string = '3.0'
+param azPowerShellVersion string = '8.3'
 
-@description('Optional. Azure CLI module version to be used.')
-param azCliVersion string = '2.42.0'
-
-@description('Optional. Use the script file included in the project')
-param useScriptFile bool = true
+param CustomerTenants string // comma separate string of the full login urls
+param B2CTenantName string
 
 @description('Optional. Uri for the external script. This is the entry point for the external script. To run an internal script, use the scriptContent instead.')
 param primaryScriptUri string = ''
@@ -58,22 +55,21 @@ param b2cSpSecret string
 @description('The name of the customer for whom the app reg is being created')
 param customerName string
 
-@description('The name of the customer App used for url generation')
-param customerAppName string
+param policyId string
 
-var args = '${b2cTenantId} ${customerName} ${b2cSpAppId} ${b2cSpSecret} ${customerAppName} rusmithb2c'  // TODO: Remove hardcoded value
+var args = '-ClientID = \\"${b2cSpAppId}\\" -ClientSecret = \\"${b2cSpSecret}\\"  -TenantId = \\"${b2cTenantId}\\" -CustomerTenants = \\"${CustomerTenants}\\" -CustomerName = \\"${customerName}\\" -B2CTenant = \\"${B2CTenantName}\\" -PolicyId = \\"${policyId}\\"'
 
-var scriptContentAppReg = useScriptFile == true ?  loadTextContent('../scripts/b2cappreg.sh') : null
+var scriptContentPolicy = loadTextContent('../scripts/DeployToB2C.ps1')
 
-resource deploymentScriptAppReg 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
+resource deploymentScriptPolicy 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
   name: name
   location: location
   kind: any(kind)
   properties: {
-    azPowerShellVersion: kind == 'AzurePowerShell' ? azPowerShellVersion : null
-    azCliVersion: kind == 'AzureCLI' ? azCliVersion : null
+    azPowerShellVersion: azPowerShellVersion  
+    azCliVersion: null
     arguments: args
-    scriptContent: empty(scriptContentAppReg) ? null : scriptContentAppReg
+    scriptContent: empty(scriptContentPolicy) ? null : scriptContentPolicy
     primaryScriptUri: empty(primaryScriptUri) ? null : primaryScriptUri
     supportingScriptUris: empty(supportingScriptUris) ? null : supportingScriptUris
     cleanupPreference: cleanupPreference
@@ -82,7 +78,7 @@ resource deploymentScriptAppReg 'Microsoft.Resources/deploymentScripts@2020-10-0
   }
 } 
 
-output result object = deploymentScriptAppReg.properties.outputs
+output result object = deploymentScriptPolicy.properties.outputs
 
 
 

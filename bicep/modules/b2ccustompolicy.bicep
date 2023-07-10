@@ -57,9 +57,11 @@ param customerName string
 
 param policyId string
 
-var args = '-ClientID = \\"${b2cSpAppId}\\" -ClientSecret = \\"${b2cSpSecret}\\"  -TenantId = \\"${b2cTenantId}\\" -CustomerTenants = \\"${CustomerTenants}\\" -CustomerName = \\"${customerName}\\" -B2CTenant = \\"${B2CTenantName}\\" -PolicyId = \\"${policyId}\\"'
-
 var scriptContentPolicy = loadTextContent('../scripts/DeployToB2C.ps1')
+var policyContent = loadTextContent('../b2c/IDP_AAD_Multi.xml')
+var args = '-ClientID = \\"${b2cSpAppId}\\" -ClientSecret = \\"${b2cSpSecret}\\"  -TenantId = \\"${b2cTenantId}\\" -CustomerTenants = \\"${CustomerTenants}\\" -CustomerName = \\"${customerName}\\" -B2CTenant = \\"${B2CTenantName}\\" -PolicyId = \\"${policyId}\\" -PolicyContent = \\"${policyContent}\\" '
+
+
 
 resource deploymentScriptPolicy 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
   name: name

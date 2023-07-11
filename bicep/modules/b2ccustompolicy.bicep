@@ -28,8 +28,8 @@ param customerName string
 param policyId string
 
 var scriptContentPolicy = loadTextContent('../scripts/DeployToB2C.ps1')
-var policyContent = loadTextContent('../b2c/IDP_AAD_Multi.xml')
-var args = '-ClientID = \\"${b2cSpAppId}\\" -ClientSecret = \\"${b2cSpSecret}\\"  -TenantId = \\"${b2cTenantId}\\" -CustomerTenants = \\"${CustomerTenants}\\" -CustomerName = \\"${customerName}\\" -B2CTenant = \\"${B2CTenantName}\\" -PolicyId = \\"${policyId}\\" -PolicyContent = \\"${policyContent}\\" '
+var policyPath = '../b2c/IDP_AAD_Multi.xml'
+var args = '-ClientID \\"${b2cSpAppId}\\" -ClientSecret \\"${b2cSpSecret}\\" -TenantId \\"${b2cTenantId}\\" -CustomerTenants \\"${CustomerTenants}\\" -CustomerName \\"${customerName}\\" -B2CTenant \\"${B2CTenantName}\\" -PolicyId \\"${policyId}\\" -PolicyPath \\"${policyPath}\\" '
 var timeout  = 'PT1H'
 var cleanupPreference = 'Always'
 var  retentionInterval = 'P1D'
@@ -44,15 +44,12 @@ resource deploymentScriptPolicy 'Microsoft.Resources/deploymentScripts@2020-10-0
     azPowerShellVersion: azPowerShellVersion  
     arguments: args
     scriptContent: empty(scriptContentPolicy) ? null : scriptContentPolicy
-    primaryScriptUri: null
-    supportingScriptUris: null
+    supportingScriptUris: []
     cleanupPreference: cleanupPreference
     retentionInterval: retentionInterval
     timeout: timeout
   }
 } 
-
-output result object = deploymentScriptPolicy.properties.outputs
 
 
 

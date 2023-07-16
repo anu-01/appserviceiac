@@ -34,6 +34,7 @@ param customerPlan  object =  {
           }
         ]
         loginUrls: ''
+        appRegClientId: ''
       }
     ]
   }

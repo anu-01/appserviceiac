@@ -44,6 +44,7 @@ param customer object = {
     }
   ]
   loginUrls: ''
+  appRegClientId: ''
 }
 
 @description('The app service plan id that this app service will use')
@@ -115,6 +116,7 @@ module policy 'b2ccustompolicy.bicep' = {
     b2cSpSecret: kv.getSecret('b2cspsecret')
     customerName: customer.name    
     policyId: policyId
+    customerAppReg: customer.appRegClientId
   }
 }
 

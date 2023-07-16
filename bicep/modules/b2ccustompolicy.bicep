@@ -27,11 +27,14 @@ param customerName string
 
 param policyId string
 
+param customerAppReg string
+
 var scriptContentPolicy = loadTextContent('../scripts/DeployToB2C.ps1')
-var policyPath = '../b2c/IDP_AAD_Multi.xml'
-var args = '-ClientID \\"${b2cSpAppId}\\" -ClientSecret \\"${b2cSpSecret}\\" -TenantId \\"${b2cTenantId}\\" -CustomerTenants \\"${CustomerTenants}\\" -CustomerName \\"${customerName}\\" -B2CTenant \\"${B2CTenantName}\\" -PolicyId \\"${policyId}\\" -PolicyPath \\"${policyPath}\\" '
+var policyXml = loadTextContent('../b2c/IDP_AAD_Multi.xml', 'utf-8')
+//var policyPath = './bicep/b2c/IDP_AAD_Multi.xml'
+var args = '-ClientID \\"${b2cSpAppId}\\" -ClientSecret \\"${b2cSpSecret}\\" -TenantId \\"${b2cTenantId}\\" -CustomerTenants \\"${CustomerTenants}\\" -CustomerName \\"${customerName}\\" -CustomerAppReg \\"${customerAppReg}\\" -B2CTenant \\"${B2CTenantName}\\" -PolicyId \\"${policyId}\\" -policyXml \\"${policyXml}\\" '
 var timeout  = 'PT1H'
-var cleanupPreference = 'Always'
+var cleanupPreference = 'OnSuccess'
 var  retentionInterval = 'P1D'
 var azPowerShellVersion = '8.3'
 

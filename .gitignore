@@ -3,3 +3,7 @@ azure-cost-estimator.pdb
 azure-cost-estimator.exe
 AzureCLI.msi
 Html/GeneratorTemplate.html
+actual.xml
+config.json
+msconfig.json
+bicep/main.dev.parameters.single.json

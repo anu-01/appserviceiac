@@ -44,6 +44,7 @@ param customerPlans array = [
           }
         ]
         loginUrls: ''
+        appRegClientId: ''
       }
     ]
   }

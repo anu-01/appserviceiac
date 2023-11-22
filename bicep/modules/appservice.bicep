@@ -128,25 +128,25 @@ module policy 'b2ccustompolicy.bicep' = {
   }
 }
 
-resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
+resource storageRef 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
   name: storageAccountName
 }
 
-resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2021-04-01' existing = {
-  parent: storage
+resource blobServiceRef 'Microsoft.Storage/storageAccounts/blobServices@2021-04-01' existing = {
+  parent: storageRef
   name: 'default'
 }
 
 resource blobContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-04-01' = if (customer.existing == 'true') {
-  parent: blobService
+  parent: blobServiceRef
   name: 'Upload-${customer.name}}'
   properties: {
     publicAccess: 'None'
   }
 }
 // Create a sas token for the storage account
-var sasToken = listServiceSAS(storage.name,'2021-04-01', {
-  canonicalizedResource: '/blob/${storage.name}/${blobContainer.name}'
+var sasToken = listServiceSAS(storageRef.name,'2021-04-01', {
+  canonicalizedResource: '/blob/${storageRef.name}/${blobContainer.name}'
   signedResource: 'c'
   signedProtocol: 'https'
   signedPermission: 'rwl'

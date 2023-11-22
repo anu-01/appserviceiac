@@ -109,6 +109,7 @@ module customers 'modules/customers.bicep' = [for plan in customerPlans: {
     kvname: kvname
     b2cLoginUrl: b2cLoginUrl
     storageAccountName: storage.outputs.storageAccountName
+    sasTokenLifetime: sasTokenLifetime
   }
 }]
 

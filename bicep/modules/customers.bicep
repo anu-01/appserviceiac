@@ -113,6 +113,7 @@ module appService 'appservice.bicep' = [for customer in customerPlan.customers: 
     b2cLoginUrl: b2cLoginUrl
     b2ctenant: customerPlan.b2ctenant
     storageAccountName: storageAccountName
+    sasTokenLifetime: sasTokenLifetime
   }  
 }]
 

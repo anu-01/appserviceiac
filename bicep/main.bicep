@@ -93,6 +93,10 @@ module storage 'modules/storage.bicep' = {
 
 @batchSize(1)
 module customers 'modules/customers.bicep' = [for plan in customerPlans: {
+  dependsOn: [
+    sql
+    storage
+  ]
   name: plan.name
   params: {
     location: location

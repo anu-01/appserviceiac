@@ -11,6 +11,7 @@ param customerPlan  object =  {
     customers: [
       {
         name: 'customer1'
+        existing: ''
         logo: ''
         splash: ''
         start: ''
@@ -62,6 +63,10 @@ param logAnalyticsWorkspaceId string
 param kvname string
 @description('The url of the b2c login page')
 param b2cLoginUrl string
+@description('The central storage account name, here the db bacpac will be uploaded')
+param storageAccountName string
+@description('SAS token lifetime in ISO 8601 duration format e.g. PT1H for 1 hour')
+param sasTokenLifetime string = 'P7D'
 
 resource asp 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: customerPlan.name
@@ -107,6 +112,7 @@ module appService 'appservice.bicep' = [for customer in customerPlan.customers: 
     kvname: kvname
     b2cLoginUrl: b2cLoginUrl
     b2ctenant: customerPlan.b2ctenant
+    storageAccountName: storageAccountName
   }  
 }]
 

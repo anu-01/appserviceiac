@@ -21,6 +21,7 @@ param repoUrl string = ''
 @description('The customer object, it is anticipated additional properties will be required here')
 param customer object = {
   name: 'customerName'
+  existing: ''
   logo: ''
   splash: ''
   start: ''
@@ -70,7 +71,13 @@ param b2cLoginUrl string
 @description('The b2c tenant name')
 param b2ctenant string
 
+@description('The central storage account name, here the db bacpac will be uploaded')
+param storageAccountName string
+@description('SAS token lifetime in ISO 8601 duration format e.g. PT1H for 1 hour')
+param sasTokenLifetime string = 'P7D'
+
 param policyPrefix string = 'B2C_1A_IDP_AAD_' 
+param baseTime string = utcNow('u')
 
 // Variables
 var gitRepoReference = {
@@ -82,6 +89,7 @@ var gitRepoReference = {
 var gitRepoUrl = (empty(repoUrl) ? gitRepoReference[language] : repoUrl)
 var appServiceName = '${customer.name}-app-${uniqueString(resourceGroup().id)}'
 var policyId = '${policyPrefix}${customer.name}'
+var sasExpiryDate = dateTimeAdd(baseTime, sasTokenLifetime)
 
 module appInsights 'appinsights.bicep' = {
   name: 'appInsights-${appServiceName}'
@@ -120,8 +128,41 @@ module policy 'b2ccustompolicy.bicep' = {
   }
 }
 
+resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
+  name: storageAccountName
+}
 
-// Resources
+resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2021-04-01' existing = {
+  parent: storage
+  name: 'default'
+}
+
+resource blobContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-04-01' = if (customer.existing == 'true') {
+  parent: blobService
+  name: 'Upload-${customer.name}}'
+  properties: {
+    publicAccess: 'None'
+  }
+}
+// Create a sas token for the storage account
+var sasToken = listServiceSAS(storage.name,'2021-04-01', {
+  canonicalizedResource: '/blob/${storage.name}/${blobContainer.name}'
+  signedResource: 'c'
+  signedProtocol: 'https'
+  signedPermission: 'rwl'
+  signedServices: 'b'
+  signedExpiry: sasExpiryDate
+}).serviceSasToken.value
+
+// Add sasToken to keyvault
+resource sasTokenSecret 'Microsoft.KeyVault/vaults/secrets@2021-11-01-preview' = {
+  parent: kv
+  name: '${customer.name}-upload-sas-token'
+  properties: {
+    value: sasToken
+  }
+}
+
 resource webApp 'Microsoft.Web/sites@2022-03-01' = {
   name: appServiceName
   location: location

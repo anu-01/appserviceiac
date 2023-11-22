@@ -12,12 +12,14 @@
         "value": [
             {
                 "name": "plan1",
+                "existing": "false",
                 "sku": "F1",
                 "capacity": "1",
                 "b2ctenant": "rusmithb2c",
                 "customers": [
                     {
                         "name": "customer1",
+                        "existing": "true",
                         "logo": "",
                         "splash": "",
                         "start": "CreateDashboard",
@@ -47,6 +49,7 @@
                     },
                     {
                         "name": "customer2",
+                        "existing": "false",
                         "logo": "",
                         "splash": "",
                         "start": "CreateDashboard",
@@ -76,6 +79,7 @@
                     },
                     {
                         "name": "customer4",
+                        "existing": "false",
                         "logo": "",
                         "splash": "",
                         "start": "CreateDashboard",
@@ -113,6 +117,7 @@
                 "customers": [                    
                     {
                         "name": "customer3", 
+                        "existing": "false",
                         "logo": "",
                         "splash": "",
                         "start": "CreateDashboard",

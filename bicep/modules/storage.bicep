@@ -7,7 +7,7 @@ param prefix string = 'stgiacdev'
 
 var storageAccountName = '${prefix}${uniqueString(resourceGroup().id)}'
 
-resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
+resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   name: storageAccountName
   location: location
   sku: {

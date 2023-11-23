@@ -132,21 +132,22 @@ resource storageRef 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
   name: storageAccountName
 }
 
-resource blobServiceRef 'Microsoft.Storage/storageAccounts/blobServices@2021-04-01' existing = {
+resource blobServiceRef 'Microsoft.Storage/storageAccounts/blobServices@2023-01-01' existing = {
   parent: storageRef
   name: 'default'
 }
 
-resource blobContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-04-01' = if (customer.existing == 'true') {
+resource blobContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-01-01' = if (customer.existing == 'true') {
   parent: blobServiceRef
   name: 'Upload-${customer.name}}'
   properties: {
     publicAccess: 'None'
   }
 }
+/*
 // Create a sas token for the storage account
 var sasToken = listServiceSAS(storageRef.name,'2021-04-01', {
-  canonicalizedResource: '/blob/${storageRef.name}/${blobContainer.name}'
+  canonicalizedResource: '/blob/${storageRef.name}/${blobContainer.name}'Y
   signedResource: 'c'
   signedProtocol: 'https'
   signedPermission: 'rwl'
@@ -161,7 +162,7 @@ resource sasTokenSecret 'Microsoft.KeyVault/vaults/secrets@2021-11-01-preview' =
   properties: {
     value: sasToken
   }
-}
+}*/
 
 resource webApp 'Microsoft.Web/sites@2022-03-01' = {
   name: appServiceName

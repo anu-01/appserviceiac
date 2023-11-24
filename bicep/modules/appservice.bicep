@@ -129,40 +129,37 @@ module policy 'b2ccustompolicy.bicep' = {
 }
 
 resource storageRef 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
-  name: storageAccountName
-}
+  name: storageAccountName //'stgiacdev4xrn45j6h7wtc'
 
-resource blobServiceRef 'Microsoft.Storage/storageAccounts/blobServices@2023-01-01' existing = {
-  parent: storageRef
-  name: 'default'
-}
+  resource blobServiceRef 'blobServices@2023-01-01' existing = {
+    name: 'default'
 
-resource blobContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-01-01' = if (customer.existing == 'true') {
-  parent: blobServiceRef
-  name: 'Upload-${customer.name}}'
-  properties: {
-    publicAccess: 'None'
+    resource blobContainer 'containers@2023-01-01' = if (customer.existing == 'true') {
+      name: customer.name
+      properties: {
+        publicAccess: 'None'
+      }
+    }
   }
 }
-/*
-// Create a sas token for the storage account
-var sasToken = listServiceSAS(storageRef.name,'2021-04-01', {
-  canonicalizedResource: '/blob/${storageRef.name}/${blobContainer.name}'Y
+
+var sasConfig = {
+  canonicalizedResource: '/blob/${storageAccountName}/${customer.name}' 
   signedResource: 'c'
-  signedProtocol: 'https'
   signedPermission: 'rwl'
-  signedServices: 'b'
   signedExpiry: sasExpiryDate
-}).serviceSasToken.value
+  signedProtocol: 'https'
+  keyToSign: 'key1'
+}
 
 // Add sasToken to keyvault
-resource sasTokenSecret 'Microsoft.KeyVault/vaults/secrets@2021-11-01-preview' = {
+resource sasTokenSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = if (customer.existing == 'true') {
   parent: kv
   name: '${customer.name}-upload-sas-token'
   properties: {
-    value: sasToken
+    value: 'BlobEndpoint=${storageRef.properties.primaryEndpoints.blob};SharedAccessSignature=${storageRef.listServiceSas(storageRef.apiVersion, sasConfig).serviceSasToken}'
   }
-}*/
+}
 
 resource webApp 'Microsoft.Web/sites@2022-03-01' = {
   name: appServiceName

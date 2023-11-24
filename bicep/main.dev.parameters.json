@@ -12,7 +12,6 @@
         "value": [
             {
                 "name": "plan1",
-                "existing": "false",
                 "sku": "F1",
                 "capacity": "1",
                 "b2ctenant": "rusmithb2c",

@@ -11,7 +11,7 @@ Param(
     [Parameter(Mandatory = $true)][string]$PolicyId,
     [Parameter(Mandatory = $true)][string]$policyXml,
     [Parameter(Mandatory = $true)][string]$customerSecret,
-    [Parameter(Mandatory = $true)][string]$customerDomain
+    [Parameter(Mandatory = $false)][string]$customerDomain
 )
 <#
 .SYNOPSIS

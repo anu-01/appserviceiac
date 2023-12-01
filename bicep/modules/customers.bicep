@@ -10,7 +10,8 @@ param customerPlan  object =  {
     b2ctenant: ''
     customers: [
       {
-        name: 'customer1'
+        name: ''
+        domain: ''
         existing: ''
         logo: ''
         splash: ''
@@ -36,6 +37,7 @@ param customerPlan  object =  {
         ]
         loginUrls: ''
         appRegClientId: ''
+        kvSecretName: ''
       }
     ]
   }
@@ -86,10 +88,6 @@ resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-previe
       {
         category: 'AllMetrics'
         enabled: true
-        retentionPolicy: {
-          days: 30
-          enabled: true 
-        }
       }
     ]
   }

@@ -44,7 +44,8 @@
                             "capacity": "5"
                             },
                         "loginUrls": "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db4",
-                        "appRegClientId": "2dad8001-f507-4bcb-bc34-e92acd1238d4"
+                        "appRegClientId": "2dad8001-f507-4bcb-bc34-e92acd1238d4",
+                        "kvSecretName": "Customer1Secret"
                     },
                     {
                         "name": "customer2",
@@ -74,7 +75,8 @@
                                 "capacity": "5"
                             },
                         "loginUrls": "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db4",
-                        "appRegClientId": "2dad8001-f507-4bcb-bc34-e92acd1238d4"
+                        "appRegClientId": "2dad8001-f507-4bcb-bc34-e92acd1238d4",
+                        "kvSecretName": "Customer2Secret"
                     },
                     {
                         "name": "customer4",
@@ -104,7 +106,8 @@
                                 "capacity": "5"
                             },
                         "loginUrls": "https://login.microsoftonline.com/19a14f32-d698-4da7-a824-69805cfed8ac/v2.0",
-                        "appRegClientId": "06dfa8a3-549e-41b8-9f83-d27d9f48d064"
+                        "appRegClientId": "06dfa8a3-549e-41b8-9f83-d27d9f48d064",
+                        "kvSecretName": "Customer4Secret"
                     }
                 ]
             },
@@ -142,7 +145,39 @@
                                 "capacity": "5"
                             },
                         "loginUrls": "https://login.microsoftonline.com/2a7a78f0-686f-4f0f-bd6f-f35fc0f735f1/v2.0",
-                        "appRegClientId": "193a74bb-fe5e-4ac6-b6cf-94b207c4b1dc"
+                        "appRegClientId": "47f5d257-685a-416b-9feb-ee614230ba20",
+                        "kvSecretName": "Customer3Secret"
+                    },
+                    {
+                        "name": "customer5", 
+                        "existing": "false",
+                        "logo": "",
+                        "splash": "",
+                        "start": "CreateDashboard",
+                        "productHubUrl": "https://www.oneadvanced.com/",
+                        "volumes": [{
+                            "documents": [{
+                                "icon": "",
+                                "path": "App_Data\\Documents"
+                            }]
+                        }],
+                        "links": [{
+                          "name": "Terms of Use",
+                          "url": "https://www.oneadvanced.com/"
+                        },
+                        {
+                          "name": "Privacy Policy",
+                          "url": "https://www.oneadvanced.com/"
+                        }],
+                        "dbSku": {
+                                "name": "Basic",
+                                "tier": "Basic",
+                                "family": "",
+                                "capacity": "5"
+                            },
+                        "loginUrls": "https://login.microsoftonline.com/2a7a78f0-686f-4f0f-bd6f-f35fc0f735f1/v2.0",
+                        "appRegClientId": "47f5d257-685a-416b-9feb-ee614230ba20",
+                        "kvSecretName": "Customer5Secret"
                     }
                 ]
             }

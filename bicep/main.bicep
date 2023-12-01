@@ -25,6 +25,7 @@ param customerPlans array = [
     customers: [
       {
         name: ''
+        domain: ''
         existing: ''
         logo: ''
         splash: ''
@@ -50,6 +51,7 @@ param customerPlans array = [
         ]
         loginUrls: ''
         appRegClientId: ''
+        kvSecretName: ''
       }
     ]
   }

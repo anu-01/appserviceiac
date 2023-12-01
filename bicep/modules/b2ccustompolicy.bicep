@@ -22,8 +22,15 @@ param b2cSpAppId string
 @description('The B2C Service Principal Secret')
 param b2cSpSecret string
 
+@secure()
+@description('The value of the customer appreg secret from the customer tenant')
+param customerSecret string
+
 @description('The name of the customer for whom the app reg is being created')
 param customerName string
+
+@description('The customers login domain, e.g. firmname.onmicrosoft.com')
+param domain string
 
 param policyId string
 
@@ -32,7 +39,7 @@ param customerAppReg string
 var scriptContentPolicy = loadTextContent('../scripts/DeployToB2C.ps1')
 var policyXml = loadTextContent('../b2c/IDP_AAD_Multi.xml', 'utf-8')
 //var policyPath = './bicep/b2c/IDP_AAD_Multi.xml'
-var args = '-ClientID \\"${b2cSpAppId}\\" -ClientSecret \\"${b2cSpSecret}\\" -TenantId \\"${b2cTenantId}\\" -CustomerTenants \\"${CustomerTenants}\\" -CustomerName \\"${customerName}\\" -CustomerAppReg \\"${customerAppReg}\\" -B2CTenant \\"${B2CTenantName}\\" -PolicyId \\"${policyId}\\" -policyXml \\"${policyXml}\\" '
+var args = '-ClientID \\"${b2cSpAppId}\\" -ClientSecret \\"${b2cSpSecret}\\" -TenantId \\"${b2cTenantId}\\" -CustomerTenants \\"${CustomerTenants}\\" -CustomerName \\"${customerName}\\" -CustomerAppReg \\"${customerAppReg}\\" -B2CTenant \\"${B2CTenantName}\\" -PolicyId \\"${policyId}\\" -policyXml \\"${policyXml}\\" -customerSecret \\"${customerSecret}\\" -customerDomain \\"${domain}\\"'
 var timeout  = 'PT1H'
 var cleanupPreference = 'OnSuccess'
 var  retentionInterval = 'P1D'

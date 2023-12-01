@@ -10,15 +10,17 @@ MainUri="https://$6.b2clogin.com/$6.onmicrosoft.com/oauth2/authresp"
 SignUpInUri="https://$5.azurewebsites.net/B2C_1_signupsignin1"
 SignInOidcUri="https://$5.azurewebsites.net/signin-oidc"
 
-#
-#az ad app create --display-name $AppName --web-redirect-uris MainUri SignUpInUri SignInOidcUri
-
-clientid=$(az ad app create --display-name $AppName --web-redirect-uris $MainUri $SignUpInUri $SignInOidcUri --query appId --output tsv)
+clientid=$(az ad app create --display-name $AppName --enable-access-token-issuance true --enable-id-token-issuance true --web-redirect-uris $MainUri $SignUpInUri $SignInOidcUri --query appId --output tsv)
 echo clientid = $clientid
 objectid=$(az ad app show --id $clientid --query id --output tsv)
 echo objectid = $objectid    
 az ad app list --display-name $AppName #(Gives details of newly created app)
 echo Listed app    
-#password=$(az ad app credential reset --id $clientid --append --query password --output tsv)
-#echo password = $password
-echo '{ "clientid": "'$clientid'", "objectId": "'$objectid'", "appSecret": "'$password'"}' > $AZ_SCRIPTS_OUTPUT_PATH
+###Create an AAD service principal
+spid=$(az ad sp create --id $clientid --query objectId --output tsv)
+###Look up a service principal
+spid=$(az ad sp show --id $clientid --query objectId --output tsv)
+### Add permissions
+az ad app update --id $objectid --required-resource-accesses '[{"resourceAppId": "00000003-0000-0000-c000-000000000000","resourceAccess": [{ "id": "7427e0e9-2fba-42fe-b0c0-848c9e6a8182","type": "Scope"},{"id": "37f7f235-527c-4136-accd-4a02d197296e","type": "Scope"}]}]'
+### Return the outputs to Bicep
+echo '{ "clientid": "'$clientid'", "objectId": "'$objectid'", "appSecret": "'$password'"}' > $AZ_SCRIPTS_OUTPUT_PATH        

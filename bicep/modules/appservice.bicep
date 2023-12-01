@@ -20,7 +20,8 @@ param repoUrl string = ''
 
 @description('The customer object, it is anticipated additional properties will be required here')
 param customer object = {
-  name: 'customerName'
+  name: ''
+  domain: ''
   existing: ''
   logo: ''
   splash: ''
@@ -46,6 +47,7 @@ param customer object = {
   ]
   loginUrls: ''
   appRegClientId: ''
+  kvSecretName: ''
 }
 
 @description('The app service plan id that this app service will use')
@@ -116,12 +118,14 @@ module policy 'b2ccustompolicy.bicep' = {
   name: '${customer.name}-${uniqueString(resourceGroup().id)}-policy'
   params: {
     name: 'b2ccustompolicy'
+    domain: customer.domain
     location: location
     CustomerTenants: customer.loginUrls
     B2CTenantName: b2ctenant    
     b2cTenantId: kv.getSecret('b2ctenantId')
     b2cSpAppId: kv.getSecret('b2cspappid')
     b2cSpSecret: kv.getSecret('b2cspsecret')
+    customerSecret: kv.getSecret(customer.kvSecretName)
     customerName: customer.name    
     policyId: policyId
     customerAppReg: customer.appRegClientId
@@ -250,20 +254,12 @@ resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-previe
       {
         category: 'AppServiceHTTPLogs'
         enabled: true
-        retentionPolicy: {
-          days: 30
-          enabled: true 
-        }
       }
     ] 
     metrics: [
       {
         category: 'AllMetrics'
         enabled: true
-        retentionPolicy: {
-          days: 30
-          enabled: true 
-        }
       }
     ]
   }  

@@ -12,7 +12,7 @@
   <DisplayName>Common AAD</DisplayName>
   <TechnicalProfiles>
     <TechnicalProfile Id='AADCommon-OpenIdConnect'>
-      <DisplayName>Multi-Tenant AAD</DisplayName>
+      <DisplayName>M365 Login</DisplayName>
       <Description>Login with your M365 account</Description>
       <Protocol Name='OpenIdConnect'/>
       <Metadata>

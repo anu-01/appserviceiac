@@ -18,6 +18,7 @@
                 "customers": [
                     {
                         "name": "customer1",
+                        "domain": "",
                         "existing": "true",
                         "logo": "",
                         "splash": "",
@@ -49,6 +50,7 @@
                     },
                     {
                         "name": "customer2",
+                        "domain": "",
                         "existing": "false",
                         "logo": "",
                         "splash": "",
@@ -80,6 +82,7 @@
                     },
                     {
                         "name": "customer4",
+                        "domain": "RussTestAD.onmicrosoft.com",
                         "existing": "false",
                         "logo": "",
                         "splash": "",
@@ -119,6 +122,7 @@
                 "customers": [                    
                     {
                         "name": "customer3", 
+                        "domain": "russ000.onmicrosoft.com",
                         "existing": "false",
                         "logo": "",
                         "splash": "",
@@ -150,6 +154,7 @@
                     },
                     {
                         "name": "customer5", 
+                        "domain": "russ000.onmicrosoft.com",
                         "existing": "false",
                         "logo": "",
                         "splash": "",

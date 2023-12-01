@@ -148,7 +148,10 @@ try {
         $policycontent = $policycontent.Replace("00000000-0000-0000-0000-000000000000", $CustomerAppReg)
         $policycontent = $policycontent.Replace("B2C_1A_IDP_AAD_Multi", $PolicyId )
         $policycontent = $policycontent.Replace("StorageReferenceId='B2C_1A_AADAppSecret'", "StorageReferenceId='$KeyContainerName'" )
-        $policycontent = $policycontent.Replace("https://login.microsoftonline.com/common/v2.0/", "https://login.microsoftonline.com/$customerDomain/v2.0/" )
+        if( $customerDomain -ne "" ) {
+            $policycontent = $policycontent.Replace("https://login.microsoftonline.com/common/v2.0/", "https://login.microsoftonline.com/$customerDomain/v2.0/" )
+        }
+       
         
     
         $policycontent = [System.Text.Encoding]::UTF8.GetBytes($policycontent)

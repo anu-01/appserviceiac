@@ -18,8 +18,7 @@ az ad app list --display-name $AppName #(Gives details of newly created app)
 echo Listed app    
 ###Create an AAD service principal
 spid=$(az ad sp create --id $clientid --query objectId --output tsv)
-###Look up a service principal
-spid=$(az ad sp show --id $clientid --query objectId --output tsv)
+az ad app permission admin-consent --id $spid
 ### Add permissions
 az ad app update --id $objectid --required-resource-accesses '[{"resourceAppId": "00000003-0000-0000-c000-000000000000","resourceAccess": [{ "id": "7427e0e9-2fba-42fe-b0c0-848c9e6a8182","type": "Scope"},{"id": "37f7f235-527c-4136-accd-4a02d197296e","type": "Scope"}]}]'
 ### Return the outputs to Bicep

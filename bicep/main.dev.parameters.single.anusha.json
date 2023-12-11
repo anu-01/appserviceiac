@@ -1,0 +1,56 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "kvname": {
+            "value": "kviaca7gqhhfztrsse"
+        },
+        "b2cLoginUrl": {
+            "value": "https://anushab2c.b2clogin.com"
+        },
+        "customerPlans": {
+        "value": [
+            {                
+                "name": "plan2",
+                "sku": "F1",
+                "capacity": "1",
+                "b2ctenant": "anushab2c",
+                "customers": [                    
+                    {
+                        "name": "CustomerName",                         
+                        "domain": "anushab2c.onmicrosoft.com",
+                        "existing": "false",
+                        "logo": "",
+                        "splash": "",
+                        "start": "CreateDashboard",
+                        "productHubUrl": "https://www.oneadvanced.com/",
+                        "volumes": [{
+                            "documents": [{
+                                "icon": "",
+                                "path": "App_Data\\Documents"
+                            }]
+                        }],
+                        "links": [{
+                          "name": "Terms of Use",
+                          "url": "https://www.oneadvanced.com/"
+                        },
+                        {
+                          "name": "Privacy Policy",
+                          "url": "https://www.oneadvanced.com/"
+                        }],
+                        "dbSku": {
+                                "name": "Basic",
+                                "tier": "Basic",
+                                "family": "",
+                                "capacity": "5"
+                            },
+                        "loginUrls": "https://login.microsoftonline.com/19d1963c-2623-4d35-aef4-e4e376ec4433",
+                        "appRegClientId": "13ea4b44-2a18-477f-bf10-41bd2521efca",
+                        "kvSecretName": "secretforcustomerApp"
+                    }
+                ]
+            }
+        ]
+      }
+    }
+  }
